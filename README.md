@@ -1,24 +1,47 @@
-# README
+# Nutrium Challenge
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Install
 
-Things you may want to cover:
+### Clone the repository
 
-* Ruby version
+```shell
+git clone https://github.com/Noivo/Nutrium_Challenge.git
+cd Nutrium_Challenge
+```
 
-* System dependencies
+### Check your Ruby version
 
-* Configuration
+```shell
+ruby -v
+ruby 2.7.2
+```
 
-* Database creation
+### Install dependencies
 
-* Database initialization
+Using [Bundler](https://github.com/bundler/bundler) and [Yarn](https://github.com/yarnpkg/yarn):
 
-* How to run the test suite
+```shell
+bundle && yarn
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+### Initialize the database
 
-* Deployment instructions
+```shell
+rails db:create db:migrate db:seed
+```
 
-* ...
+### Database
+
+```shell
+PostgreSQL 13
+```
+
+### Install PostgreSQL Server
+
+Using [Homebrew](https://dataschool.com/learn-sql/how-to-start-a-postgresql-server-on-mac-os-x/#using-homebrew) or [PostgreSQL App](https://dataschool.com/learn-sql/how-to-start-a-postgresql-server-on-mac-os-x/#using-postgresql-app)
+
+## Serve
+
+```shell
+rails s
+```
