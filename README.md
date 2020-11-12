@@ -5,8 +5,8 @@
 ### Clone the repository
 
 ```shell
-git clone https://github.com/Noivo/Nutrium_Challenge.git
-cd Nutrium_Challenge
+git clone https://github.com/Noivo/Nutrium-meal-widget.git
+cd Nutrium-meal-widget
 ```
 
 ### Check your Ruby version
