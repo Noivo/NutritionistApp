@@ -9,25 +9,25 @@ const SquaresPagination = styled.button`
     color: #696363;
     width: 30px;
     height: 30px;
-    border-top: 2px solid #F5F5F5;
-    border-bottom: 2px solid #F5F5F5;
-    border-left: 1px solid #F5F5F5;
-    border-right: 1px solid #F5F5F5;
+    border-top: 2px solid #f0f1f2;
+    border-bottom: 2px solid #f0f1f2;
+    border-left: 1px solid #f0f1f2;
+    border-right: 1px solid #f0f1f2;
 
     &:focus {
         outline: none;
-        background: #F5F5F5;
+        background: #f0f1f2;
     }
 
     &:hover {
-        background: #F5F5F5;
+        background: #f0f1f2;
     }
 
     &:first-child {
-        border-left: 2px solid #F5F5F5;
+        border-left: 2px solid #f0f1f2;
     }
     &:last-child {
-        border-right: 2px solid #F5F5F5;
+        border-right: 2px solid #f0f1f2;
     }
 `
 

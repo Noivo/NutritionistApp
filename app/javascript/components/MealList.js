@@ -6,6 +6,7 @@ import { FaTrash } from "react-icons/fa"
 
 const IngredientText = styled.div`
     margin: 10px 0px 10px 10px;
+    color: #606060;
 `
 
 const TrashIcon = styled.button` 
@@ -27,7 +28,7 @@ const CenterIcon = styled.div`
 const IngredientRow = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    border: 2px solid #F5F5F5;
+    border: 2px solid #f0f1f2;
     margin-top: 10px;
 
     &:hover ${IngredientText}{

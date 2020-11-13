@@ -5,16 +5,20 @@ import IngredientAdd from "./IngredientAdd"
 import Pagination from "./Pagination"
 
 const Background = styled.div`
-    background-color: #FDFDFD;
-    padding-bottom: 20px;
+    background-color: #fafafb;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f1f2;
+    border-right: 2px solid #f0f1f2;
+    border-left: 2px solid #f0f1f2;
 `
 
 const Input = styled.input`
     width: calc(100% - 61px);
     margin: 20px 20px;
-    border: 2px solid #F5F5F5;
+    border: 2px solid #f0f1f2;
     height: 40px;
     padding-left: 15px;
+    color: #808284;
 
     &:focus{
         outline: none;
@@ -45,14 +49,13 @@ function IngredientSearch(props) {
     const displayIngredients =  ingredientSearch ? dynamicSearch() : "" 
     
     return(
-        <>
             <Background>
               <Input type= 'text' value={ingredientSearch} onChange={e => setIngredientSearch(e.target.value)} placeholder='Search for a food'>
               </Input>
               {displayIngredients}   
               {showPagination}                       
             </Background>
-        </>
+
     )
 }
 

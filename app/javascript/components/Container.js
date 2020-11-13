@@ -11,6 +11,7 @@ const BackgroundWhite = styled.div`
     border-radius: 3px;
     overflow: hidden;
     box-shadow: 2px 2px #ccc;
+    padding-bottom: 15px;
 `
 const Card = styled.div`
     margin: 20px 15px;
@@ -23,11 +24,11 @@ const Header = styled.div`
 `
 
 const Meal = styled.div`
-    color: #606060;
+    color: #87888a;
 `
 
 const Hours = styled.div`
-    color: #696969;	
+    color: #88898b;	
 `
 
 const RowsIngredients = styled.div`

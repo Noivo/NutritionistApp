@@ -12,9 +12,9 @@ const Place_Button = styled.div`
 `
 
 const PlusButton = styled.button`
-    color: #3CB371;
-    background: #FDFDFD;
-    border: 2px solid #F5F5F5;
+    color: #59b399;
+    background: #fafafb;
+    border: 2px solid #f0f1f2;
     height: 42px;
     width: 41px;
     font-size: 1.6em;
@@ -25,7 +25,7 @@ const PlusButton = styled.button`
     } 
 `
 const OpenBar = styled.div`
-    border: 2px solid #F5F5F5;
+    border: 2px solid #f0f1f2;
     flex-grow: 4;
      
 `

@@ -6,7 +6,7 @@ const BackgroundFood = styled.div`
     margin: 10px;
 `
 const AddButton = styled.button`
-    background:  #00994d;
+    background:  #53b095;
     color: white;
     margin-left: auto;
     border: none;
@@ -22,21 +22,22 @@ const AddButton = styled.button`
 const Row = styled.div`
     margin-right: 10px;
     margin-left: 20px;
-    border-left: 2px solid #F5F5F5; 
-    border-right: 2px solid #F5F5F5; 
-    border-bottom: 1px solid #F5F5F5;
-    border-top: 1px solid #F5F5F5;
+    border-left: 2px solid #f0f1f2; 
+    border-right: 2px solid #f0f1f2; 
+    border-bottom: 1px solid #f0f1f2;
+    border-top: 1px solid #f0f1f2;
     background: white;
     display: flex;
+    
 
     &:first-child {
-        border-top: 2px solid #F5F5F5;
+        border-top: 2px solid #f0f1f2;
     }
     &:last-child {
-        border-bottom: 2px solid #F5F5F5;
+        border-bottom: 2px solid #f0f1f2;
     }
     &:hover {
-        background: #effff5;
+        background: #f7fffc;
     }
     &:hover ${AddButton} {
         display: inline-block;
@@ -44,13 +45,19 @@ const Row = styled.div`
 `
 const TextFood = styled.div`
  margin: 10px 10px 10px 24px;
+ color: #717475;
     
 `
 const SelectMeasure = styled.select`
     width: 80px;
     padding-left: 10px;
-    border: 2px solid #F5F5F5;
+    border: 2px solid #f0f1f2;
     border-left: none;
+    color: #717475;
+
+    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/8x8/br_down.png) no-repeat right #ffff;
+    -webkit-appearance: none;
+    background-position-x: 80%;
 
     &:focus{
         outline: none;
@@ -61,7 +68,8 @@ const InputAmount = styled.input`
     height: 32px;
     width: 40px;
     text-align: center;
-    border: 2px solid #F5F5F5;
+    border: 2px solid #f0f1f2;
+    color: #717475;
 
     &:focus {
         outline: none;
@@ -92,8 +100,6 @@ function IngredientAdd(props) {
             body: JSON.stringify(data)
          }).then(response => response.json())
         .then(() => updateMealList()).catch(error => error)
-
-        updateMealList() 
         
     }
     
