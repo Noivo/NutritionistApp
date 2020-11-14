@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
 import FoodBoard from './FoodBoard'
-import MealList from './MealList'
+import ComponentList from './ComponentList'
 
 
 const BackgroundWhite = styled.div`
@@ -34,21 +34,25 @@ const Hours = styled.div`
 const Rowsfoods = styled.div`
     margin-top: 15px;
 `
-
+function DisplayCOmponentList(props) {
+    return props.componentList.length ? props.componentList.map(({id, quantity, measure, name}) => 
+        <ComponentList key={id} id={id} quantity={quantity} measure={measure} name={name} componentList={props.componentList} setComponentList={props.setComponentList}/>) : ""
+}
 function Container() {
-    const [mealList, setMealList] = useState([])
+    const [componentList, setComponentList] = useState([])
 
-    useEffect( async() => {
-        const requestMealList = await fetch("/meals.json")
-        const parseJsonMealList = await requestMealList.json();
-        setMealList(parseJsonMealList);
+    useEffect( () => {
+        async function requestComponentList(){
+            try{
+                const requestComponentList = await fetch("/components.json")
+                const parseJsonComponentList = await requestComponentList.json();
+                setComponentList(parseJsonComponentList);
+            } catch(error) {console.log(error)}
+        }
+        requestComponentList()
     }, [])
 
-    const foodsSelectList = mealList && mealList.map(food => 
-    <MealList key={food.id} id={food.id} quantity={food.quantity} measure={food.measure} name={food.food} mealList={mealList} setMealList={setMealList}/>)
-
     return (
-        <>
         <BackgroundWhite>
             <Card>
                 <Header>
@@ -56,13 +60,11 @@ function Container() {
                     <Hours>7:00 AM</Hours>
                 </Header>
                 <Rowsfoods>
-                    {foodsSelectList}
-                    <FoodBoard setMealList={setMealList} mealList={mealList}/>
+                    <DisplayCOmponentList componentList={componentList} setComponentList={setComponentList}/>
+                    <FoodBoard setComponentList={setComponentList} componentList={componentList}/>
                 </Rowsfoods>
             </Card>
         </BackgroundWhite>
-
-        </>
     )
 }
 

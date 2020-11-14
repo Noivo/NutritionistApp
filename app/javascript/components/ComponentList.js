@@ -42,24 +42,25 @@ const capitalize = str => {
         return str.charAt(0).toLowerCase() + str.slice(1);
 }
 
-function MealList(props) {
+function ComponentList(props) {
 
-    const deleteFood = () => {
-        props.setMealList(props.mealList.filter(food => food.food !== props.name))
-
-        fetch(`/meals/${props.id}.json`, {
-            method: 'DELETE',      
-         }).then(response => response.json()).catch(error => error)
-
+    const deleteComponent = async() => {
+        try{
+            const deleteComponent = await fetch(`/components/${props.id}.json`, {
+                method: 'DELETE',      
+             }).then(response => response.json()).catch(error => error)
+    
+             deleteComponent && props.setComponentList(props.componentList.filter(food => food.name !== props.name))
+        } catch(error) {console.log(error)}
     }
+
     return(
-        <>
             <FoodRow>
                 <FoodText>
                     {props.quantity} {props.measure} of {capitalize(props.name)}
                 </FoodText>
                 <CenterIcon>
-                    <TrashIcon onClick={deleteFood}>
+                    <TrashIcon onClick={deleteComponent}>
                         <IconContext.Provider value={{ color: "#696363"}}>
                             <div>
                                 <FaTrash/>
@@ -68,8 +69,7 @@ function MealList(props) {
                     </TrashIcon>  
                 </CenterIcon>
             </FoodRow>
-        </>
     )
 }
 
-export default MealList
+export default ComponentList

@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
-import FoodAdd from "./FoodAdd"
+import Component from "./Component"
 
 import {IconContext}  from "react-icons"
 import {FaForward, FaFastForward} from 'react-icons/fa'
@@ -18,7 +18,6 @@ const SquarePagination = styled.button`
 
     &:focus {
         outline: none;
-        background: #f0f1f2;
     }
 
     &:hover {
@@ -65,38 +64,45 @@ const FlexPagination = styled.div`
     margin-top: 20px;
 `
 
-
 function Pagination(props) {
     const [currentPage, setCurrentPage] = useState(1)
     const [foodPerPage, setFoodPerPage] = useState(5)
     const [matchFoodList, setMatchFoodList] = useState([]);
+    const [previousPagination, setPreviousPagination] = useState(0);
 
     const pageNumbers = []
     const itemsRef = []
 
     useEffect(() => {
-        setMatchFoodList(foodSearchMatch(props.foodListUnique))
+        const foodsMatch = foodSearchMatch(props.foodListUnique)
+        setMatchFoodList(foodsMatch)
+        updatePaginationLastFoodAdded(foodsMatch.length)
     }, [props.foodListUnique, props.foodSearch])
 
-    // useEffect(() => {
-    //     if (renderPageNumbers && renderPageNumbers.length) itemsRef[0].focus()
-    // },[renderPageNumbers])
+    useEffect(() => {
+        if(itemsRef.length && itemsRef[previousPagination])  itemsRef[previousPagination].style.backgroundColor= "#fff";
+        if(itemsRef.length && itemsRef[currentPage-1])  itemsRef[currentPage-1].style.backgroundColor= "#f0f1f2";
+        setPreviousPagination(currentPage-1)
+    },[itemsRef])
+
+    const updatePaginationLastFoodAdded = (foodListSize) => {
+        if(Math.ceil(foodListSize / foodPerPage) < currentPage) setCurrentPage(Math.ceil(foodListSize / foodPerPage))
+    }
 
     const foodSearchMatch = foodList => {
-        return foodList.filter(food => compareSearchWithList(food)).map(food => addFood(food))
+        return foodList.filter(food => compareSearchWithList(food)).map(food => displayComponent(food))
     }
     
     const compareSearchWithList = food=> {
         return food.name.toLowerCase().includes(props.foodSearch.toLowerCase())
     }
 
-    const addFood = food => { 
-        return <FoodAdd key={food.id} id={food.id} name={food.name} mealList={props.mealList} setMealList={props.setMealList}/>
+    const displayComponent = ({id, name}) => { 
+        return <Component key={id} id={id} name={name} componentList={props.componentList} setComponentList={props.setComponentList}/>
     }
 
     
     const renderFoods = () => {
-        console.log(matchFoodList)
         const indexOfLastFood = currentPage * foodPerPage;
         const indexOfFirstFood = indexOfLastFood - foodPerPage;
         const currentFood = matchFoodList.slice(indexOfFirstFood, indexOfLastFood);
@@ -106,7 +112,6 @@ function Pagination(props) {
         });
     
     }
-    
     
     for (let i = 1; i <= Math.ceil(matchFoodList.length / foodPerPage); i++) {
         pageNumbers.push(i)
@@ -129,18 +134,18 @@ function Pagination(props) {
     }
 
     const renderPageNumbers = pageNumbers.map(number => {
-    return (
+        return (
 
-        <SquarePagination
-        key={number}
-        id={number}
-        ref = {ref => itemsRef.push(ref)} 
-        onClick={() => setCurrentPage(number)}
-        >
-        {number}
-        </SquarePagination>
-    );
-    });
+            <SquarePagination
+                key={number}
+                id={number}
+                ref = {ref => itemsRef.push(ref)} 
+                onClick={() => setCurrentPage(number)}
+                >
+                {number}
+            </SquarePagination>
+        );
+        });
 
     const renderButtons = pageNumbers.length ? <> 
         <IconPagination onClick={nextPage}>
@@ -167,7 +172,7 @@ function Pagination(props) {
             {renderButtons}
         </FlexPagination>
       </>
-    );
+    )
 }
 
 export default Pagination

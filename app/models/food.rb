@@ -1,3 +1,3 @@
 class Food < ApplicationRecord
-    belongs_to :meal
+    has_one :component
 end

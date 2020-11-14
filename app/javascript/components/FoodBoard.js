@@ -33,27 +33,31 @@ const Placeholder = styled.div`
     color: #C8C8C8;
     margin: 10px 0px 10px 10px;
 `
+const iconArrowUp = <IconContext.Provider value={{ color: "#3CB371"}}>
+    <div>
+        <FaAngleUp/>
+    </div>
+    </IconContext.Provider> 
 
-function foodBoard(props) {
+function DisplaySearchBar(props) {
+    return props.show && <FoodSearch foodList={props.foodList} componentList={props.componentList} setComponentList={props.setComponentList}/>
+}
+
+function FoodBoard(props) {
     const [show, setShow] = useState(false)
     const [foodList, setFoodList] = useState([])
 
-    useEffect( async() => {
-        const requestfoodList = await fetch("/foods.json")
-        const parseJsonfoodList = await requestfoodList.json();
-        setFoodList(parseJsonfoodList)
+    useEffect( () => {
+        async function requestFoodList(){
+            const requestFoodList = await fetch("/foods.json")
+            const parseJsonFoodList = await requestFoodList.json();
+            setFoodList(parseJsonFoodList)
+        }
+        requestFoodList()
+        
     }, [])
 
-    const displaySearchBar = show &&
-        <FoodSearch foodList={foodList} mealList={props.mealList} setMealList={props.setMealList}/>
-
-    const displayIconButton = show ? 
-        <IconContext.Provider value={{ color: "#3CB371"}}>
-            <div>
-                <FaAngleUp/>
-            </div>
-        </IconContext.Provider> : '+'
-        
+    const displayIconButton = show ? iconArrowUp : '+'
 
     return(
         <>
@@ -67,9 +71,9 @@ function foodBoard(props) {
                     {displayIconButton}
                 </PlusButton>
             </Place_Button>
-            {displaySearchBar}
+            <DisplaySearchBar show={show} foodList={foodList} componentList={props.componentList} setComponentList={props.setComponentList} />
         </>
     )
 }
 
-export default foodBoard
+export default FoodBoard

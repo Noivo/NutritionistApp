@@ -83,32 +83,35 @@ const InputAmount = styled.input`
 const MEASURES = ["grams", "kilos"]
 const options = MEASURES.map(value => <option value={value} key={value}>{value}</option>)
 
-function foodAdd(props) {
+function Component(props) {
     const [amount, setAmount] = useState("100");
     const [selectMeasure, setSelectMeasure] = useState("grams")
 
-    const updateMealList = async () => {
-        const requestMealList = await fetch("/meals.json")
-        const parseJsonMealList = await requestMealList.json();
-        props.setMealList(parseJsonMealList);
+    const updateComponentList = async () => {
+        try{
+            const requestComponentList = await fetch("/components.json")
+            const parseJsonComponentList = await requestComponentList.json();
+            props.setComponentList(parseJsonComponentList);
+        } catch(error) {console.log(error)}
     }
 
-    const addfood = async () => {
-        const data = {food:props.name, quantity:amount, measure: selectMeasure}  
-        fetch(`/meals`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-            body: JSON.stringify(data)
-         }).then(response => response.json())
-        .then(() => updateMealList()).catch(error => error)
+    const addComponent = async () => {
+        const data = {name:props.name, quantity:amount, measure: selectMeasure, food_id:props.id}
+        try{  
+            const requestComponentAdd = await fetch(`/components`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            requestComponentAdd && updateComponentList()
+        } catch(error) {console.log(error)}        
         
     }
     
         return (   
-            <>
             <Row>
                 <BackgroundFood>
                     <InputAmount value={amount} onChange={e => setAmount(e.target.value)}>
@@ -121,11 +124,10 @@ function foodAdd(props) {
                         {props.name}
                     </TextFood>
                 </BackgroundFood>
-                < AddButton onClick={addfood}>+</AddButton>  
+                < AddButton onClick={addComponent}>+</AddButton>  
             </Row> 
-            </>
         )
     
 }
 
-export default foodAdd
+export default Component

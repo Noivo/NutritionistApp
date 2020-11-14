@@ -23,35 +23,34 @@ const Input = styled.input`
         outline: none;
     } 
 `
+function ShowPagination(props){
+    return props.foodSearch && <Pagination foodListUnique={props.foodListUnique} foodSearch={props.foodSearch} componentList={props.componentList} setComponentList={props.setComponentList}/>
+}
 
-
-function foodSearch(props) {
+function FoodSearch(props) {
     const [foodSearch, setFoodSearch] = useState("");
     const [foodListUnique, setFoodListUnique] = useState([]);
 
     useEffect(() => {        
         setFoodListUnique(removeDuplicateFood(props.foodList))
-    }, [props.mealList])
+    }, [props.componentList])
 
     const removeDuplicateFood = foodList => {
-        const duplicatefoods =  verifyDuplicates(foodList, props.mealList)
+        const duplicatefoods =  verifyDuplicates(foodList, props.componentList)
         return (foodList.filter(food => !(duplicatefoods.includes(food.name))))
     }
 
-    const verifyDuplicates = (foodList, mealList) => {
-       return foodList.filter(element => mealList.some(food => element.name === food.food)).map(duplicate => duplicate.name)
+    const verifyDuplicates = (foodList, componentList) => {
+       return foodList.filter(element => componentList.some(food => element.name === food.name)).map(duplicate => duplicate.name)
     }
-    
-    const showPagination = foodSearch && <Pagination foodListUnique={foodListUnique} foodSearch={foodSearch} mealList={props.mealList} setMealList={props.setMealList}/>
     
     return(
             <Background>
               <Input type= 'text' value={foodSearch} onChange={e => setFoodSearch(e.target.value)} placeholder='Search for a food'>
               </Input> 
-              {showPagination}                       
+              <ShowPagination foodListUnique={foodListUnique} foodSearch={foodSearch} componentList={props.componentList} setComponentList={props.setComponentList} />                      
             </Background>
-
     )
 }
 
-export default foodSearch;
+export default FoodSearch;
