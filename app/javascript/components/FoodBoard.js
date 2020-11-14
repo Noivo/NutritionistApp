@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import {IconContext}  from "react-icons"
 import { FaAngleUp } from "react-icons/fa"
 
-import IngredientSearch from "./IngredientSearch"
+import FoodSearch from "./FoodSearch"
 
 const Place_Button = styled.div`
     display:flex;
@@ -34,22 +34,18 @@ const Placeholder = styled.div`
     margin: 10px 0px 10px 10px;
 `
 
-const SearchBar = styled.div`
-    
-`
-
-function IngredientBoard(props) {
+function foodBoard(props) {
     const [show, setShow] = useState(false)
-    const [ingredientsList, setIngredientsList] = useState([])
+    const [foodList, setFoodList] = useState([])
 
     useEffect( async() => {
-        const requestIngredientsList = await fetch("/ingredients.json")
-        const parseJsonIngredientsList = await requestIngredientsList.json();
-        setIngredientsList(parseJsonIngredientsList)
+        const requestfoodList = await fetch("/foods.json")
+        const parseJsonfoodList = await requestfoodList.json();
+        setFoodList(parseJsonfoodList)
     }, [])
 
-    const displaySearchBar = show && 
-        <IngredientSearch ingredientsList={ingredientsList} mealList={props.mealList} setMealList={props.setMealList}/>
+    const displaySearchBar = show &&
+        <FoodSearch foodList={foodList} mealList={props.mealList} setMealList={props.setMealList}/>
 
     const displayIconButton = show ? 
         <IconContext.Provider value={{ color: "#3CB371"}}>
@@ -76,4 +72,4 @@ function IngredientBoard(props) {
     )
 }
 
-export default IngredientBoard
+export default foodBoard

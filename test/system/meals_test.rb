@@ -14,7 +14,7 @@ class MealsTest < ApplicationSystemTestCase
     visit meals_url
     click_on "New Meal"
 
-    fill_in "Ingredient", with: @meal.ingredient
+    fill_in "Food", with: @meal.food
     fill_in "Measure", with: @meal.measure
     fill_in "Quantity", with: @meal.quantity
     click_on "Create Meal"
@@ -27,7 +27,7 @@ class MealsTest < ApplicationSystemTestCase
     visit meals_url
     click_on "Edit", match: :first
 
-    fill_in "Ingredient", with: @meal.ingredient
+    fill_in "Food", with: @meal.food
     fill_in "Measure", with: @meal.measure
     fill_in "Quantity", with: @meal.quantity
     click_on "Update Meal"

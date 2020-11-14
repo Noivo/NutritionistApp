@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 
+import arrow from '../../assets/images/arrow2.png'
+
 const BackgroundFood = styled.div`
     display: flex;
     margin: 10px;
@@ -30,10 +32,11 @@ const Row = styled.div`
     display: flex;
     
 
-    &:first-child {
+    &:nth-child(2) {
         border-top: 2px solid #f0f1f2;
     }
-    &:last-child {
+
+    &:nth-last-child(2) {
         border-bottom: 2px solid #f0f1f2;
     }
     &:hover {
@@ -49,15 +52,16 @@ const TextFood = styled.div`
     
 `
 const SelectMeasure = styled.select`
-    width: 80px;
+    width: 90px;
     padding-left: 10px;
     border: 2px solid #f0f1f2;
     border-left: none;
     color: #717475;
 
-    background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/8x8/br_down.png) no-repeat right #ffff;
+    background: url(${arrow}) no-repeat right #fff;
     -webkit-appearance: none;
-    background-position-x: 80%;
+    background-position-x: 90%;
+    background-size: 20px 20px;
 
     &:focus{
         outline: none;
@@ -79,7 +83,7 @@ const InputAmount = styled.input`
 const MEASURES = ["grams", "kilos"]
 const options = MEASURES.map(value => <option value={value} key={value}>{value}</option>)
 
-function IngredientAdd(props) {
+function foodAdd(props) {
     const [amount, setAmount] = useState("100");
     const [selectMeasure, setSelectMeasure] = useState("grams")
 
@@ -89,8 +93,8 @@ function IngredientAdd(props) {
         props.setMealList(parseJsonMealList);
     }
 
-    const addIngredient = async () => {
-        const data = {ingredient:props.name, quantity:amount, measure: selectMeasure}  
+    const addfood = async () => {
+        const data = {food:props.name, quantity:amount, measure: selectMeasure}  
         fetch(`/meals`, {
             method: 'POST',
             headers: {
@@ -105,23 +109,23 @@ function IngredientAdd(props) {
     
         return (   
             <>
-                <Row>
-                    <BackgroundFood>
-                        <InputAmount value={amount} onChange={e => setAmount(e.target.value)}>
-                        </InputAmount>
-                        <SelectMeasure value={selectMeasure} onChange={e => setSelectMeasure(e.target.value)}>
-                            {options}
-                        </SelectMeasure>
+            <Row>
+                <BackgroundFood>
+                    <InputAmount value={amount} onChange={e => setAmount(e.target.value)}>
+                    </InputAmount>
+                    <SelectMeasure value={selectMeasure} onChange={e => setSelectMeasure(e.target.value)}>
+                        {options}
+                    </SelectMeasure>
 
-                        <TextFood>
-                            {props.name}
-                        </TextFood>
-                    </BackgroundFood>
-                    < AddButton onClick={addIngredient}>+</AddButton>    
-                </Row> 
+                    <TextFood>
+                        {props.name}
+                    </TextFood>
+                </BackgroundFood>
+                < AddButton onClick={addfood}>+</AddButton>  
+            </Row> 
             </>
         )
     
 }
 
-export default IngredientAdd
+export default foodAdd

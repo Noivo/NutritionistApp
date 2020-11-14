@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import {IconContext}  from "react-icons"
 import { FaTrash } from "react-icons/fa"
 
-const IngredientText = styled.div`
+const FoodText = styled.div`
     margin: 10px 0px 10px 10px;
     color: #606060;
 `
@@ -25,13 +25,13 @@ const CenterIcon = styled.div`
     text-align: center;
 `
 
-const IngredientRow = styled.div`
+const FoodRow = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     border: 2px solid #f0f1f2;
     margin-top: 10px;
 
-    &:hover ${IngredientText}{
+    &:hover ${FoodText}{
         color: #C8C8C8;
     }
     &:hover ${TrashIcon} {
@@ -44,8 +44,8 @@ const capitalize = str => {
 
 function MealList(props) {
 
-    const deleteIngredient = () => {
-        props.setMealList(props.mealList.filter(ingredient => ingredient.ingredient !== props.name))
+    const deleteFood = () => {
+        props.setMealList(props.mealList.filter(food => food.food !== props.name))
 
         fetch(`/meals/${props.id}.json`, {
             method: 'DELETE',      
@@ -54,12 +54,12 @@ function MealList(props) {
     }
     return(
         <>
-            <IngredientRow>
-                <IngredientText>
+            <FoodRow>
+                <FoodText>
                     {props.quantity} {props.measure} of {capitalize(props.name)}
-                </IngredientText>
+                </FoodText>
                 <CenterIcon>
-                    <TrashIcon onClick={deleteIngredient}>
+                    <TrashIcon onClick={deleteFood}>
                         <IconContext.Provider value={{ color: "#696363"}}>
                             <div>
                                 <FaTrash/>
@@ -67,7 +67,7 @@ function MealList(props) {
                         </IconContext.Provider>
                     </TrashIcon>  
                 </CenterIcon>
-            </IngredientRow>
+            </FoodRow>
         </>
     )
 }

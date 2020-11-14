@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
-import IngredientBoard from './IngredientBoard'
+import FoodBoard from './FoodBoard'
 import MealList from './MealList'
 
 
@@ -31,7 +31,7 @@ const Hours = styled.div`
     color: #88898b;	
 `
 
-const RowsIngredients = styled.div`
+const Rowsfoods = styled.div`
     margin-top: 15px;
 `
 
@@ -44,8 +44,8 @@ function Container() {
         setMealList(parseJsonMealList);
     }, [])
 
-    const ingredientsSelectList = mealList && mealList.map(ingredient => 
-    <MealList key={ingredient.id} id={ingredient.id} quantity={ingredient.quantity} measure={ingredient.measure} name={ingredient.ingredient} mealList={mealList} setMealList={setMealList}/>)
+    const foodsSelectList = mealList && mealList.map(food => 
+    <MealList key={food.id} id={food.id} quantity={food.quantity} measure={food.measure} name={food.food} mealList={mealList} setMealList={setMealList}/>)
 
     return (
         <>
@@ -55,10 +55,10 @@ function Container() {
                     <Meal>Breakfast</Meal>
                     <Hours>7:00 AM</Hours>
                 </Header>
-                <RowsIngredients>
-                    {ingredientsSelectList}
-                    <IngredientBoard setMealList={setMealList} mealList={mealList}/>
-                </RowsIngredients>
+                <Rowsfoods>
+                    {foodsSelectList}
+                    <FoodBoard setMealList={setMealList} mealList={mealList}/>
+                </Rowsfoods>
             </Card>
         </BackgroundWhite>
 
