@@ -10,6 +10,10 @@ const Place_Button = styled.div`
     display:flex;
     margin-top: 10px;
 `
+const ArrowUpSearch = styled.div`
+    padding-top: 5px;
+    font-size: 17px;
+`
 
 const PlusButton = styled.button`
     color: #59b399;
