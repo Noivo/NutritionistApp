@@ -63,74 +63,89 @@ const FlexPagination = styled.div`
     margin-right: 10px;
     margin-top: 20px;
 `
+const FOODPERPAGE = 5;
 
 function Pagination(props) {
     const [currentPage, setCurrentPage] = useState(1)
-    const [foodPerPage, setFoodPerPage] = useState(5)
-    const [matchFoodList, setMatchFoodList] = useState([]);
+    const [foodMatchList, setFoodMatchList] = useState([]);
     const [previousPagination, setPreviousPagination] = useState(0);
 
     const pageNumbers = []
-    const itemsRef = []
+    const pagesRef = []
 
     useEffect(() => {
-        const foodsMatch = foodSearchMatch(props.foodListUnique)
-        setMatchFoodList(foodsMatch)
-        updatePaginationLastFoodAdded(foodsMatch.length)
-    }, [props.foodListUnique, props.foodSearch])
+        const foodMatch = searchFoodMatch(props.foodListWithWords)
+        setFoodMatchList(foodMatch)
+        updatePaginationLastComponentAdded(foodMatch.length)
+    }, [props.foodListWithWords, props.foodWords])
 
     useEffect(() => {
-        if(itemsRef.length && itemsRef[previousPagination])  itemsRef[previousPagination].style.backgroundColor= "#fff";
-        if(itemsRef.length && itemsRef[currentPage-1])  itemsRef[currentPage-1].style.backgroundColor= "#f0f1f2";
-        setPreviousPagination(currentPage-1)
-    },[itemsRef])
+        resetBackgroundOldPage();
+        setBackgroundNewPage(); 
+        setPreviousPagination(currentPage)
+    },[pagesRef])
 
-    const updatePaginationLastFoodAdded = (foodListSize) => {
-        if(Math.ceil(foodListSize / foodPerPage) < currentPage) setCurrentPage(Math.ceil(foodListSize / foodPerPage))
+    const resetBackgroundOldPage = () => {
+        if(pagesRef.length && pagesRef[previousPagination-1])  pagesRef[previousPagination-1].style.backgroundColor= "#fff"
     }
 
-    const foodSearchMatch = foodList => {
-        return foodList.filter(food => compareSearchWithList(food)).map(food => displayComponent(food))
+    const setBackgroundNewPage = () => {
+        if(pagesRef.length && pagesRef[currentPage-1])  pagesRef[currentPage-1].style.backgroundColor= "#f0f1f2";
+    }
+
+    const updatePaginationLastComponentAdded = (foodListSize) => {
+        if(foodMatchList.length && Math.ceil(foodListSize / FOODPERPAGE) < currentPage) updateCurrentPage(Math.ceil(foodListSize / FOODPERPAGE))
+    }
+
+    const searchFoodMatch = foodList => {
+        return foodList.filter(food => compareSearchWithList(food)).map(foodMatch => props.foodListComplete.map(foodComplete => foodComplete.id === foodMatch.id && displayComponent(foodComplete)))
     }
     
-    const compareSearchWithList = food=> {
-        return food.name.toLowerCase().includes(props.foodSearch.toLowerCase())
+    const compareSearchWithList = food => {
+        const numberTrueForValidate = props.foodWords.length
+        return food.name.filter(name => (props.foodWords.filter(searchWord => name.includes(searchWord.toLowerCase()))).length).length >= numberTrueForValidate
     }
 
     const displayComponent = ({id, name}) => { 
         return <Component key={id} id={id} name={name} componentList={props.componentList} setComponentList={props.setComponentList}/>
     }
 
-    
-    const renderFoods = () => {
-        const indexOfLastFood = currentPage * foodPerPage;
-        const indexOfFirstFood = indexOfLastFood - foodPerPage;
-        const currentFood = matchFoodList.slice(indexOfFirstFood, indexOfLastFood);
-
-        return currentFood.map((food, index) => {
-           return  <div key={index}>{food}</div>
-        });
-    
+    const updateCurrentPage = newCurrentPage => {
+        if(newCurrentPage !== 0) {
+            setPreviousPagination(currentPage)
+            setCurrentPage(newCurrentPage)
+        }
     }
     
-    for (let i = 1; i <= Math.ceil(matchFoodList.length / foodPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(foodMatchList.length / FOODPERPAGE); i++) {
         pageNumbers.push(i)
     }
 
     const nextPage = () => {
         if(currentPage < pageNumbers.length) {
-            setCurrentPage(currentPage + 1);
-            itemsRef[currentPage].focus()
+            updateCurrentPage(currentPage + 1);
+            pagesRef[currentPage].focus()
         } else {
-            setCurrentPage(1)
-            itemsRef[0].focus()
+            updateCurrentPage(1)
+            pagesRef[0].focus()
         }
     }
 
     const lastPage = () => {
-        setCurrentPage(pageNumbers.length)
-        itemsRef[pageNumbers.length-1].focus()
+        updateCurrentPage(pageNumbers.length)
+        pagesRef[pageNumbers.length-1].focus()
         
+    }
+
+    const renderFoodsPerPage = () => {
+        const indexOfLastFood = currentPage * FOODPERPAGE;
+        const indexOfFirstFood = indexOfLastFood - FOODPERPAGE;        
+        const currentFood = foodMatchList.slice(indexOfFirstFood, indexOfLastFood);
+
+        return currentFood.map((food, index) => {
+           return  <div key={index}>{food}</div>
+        });
+    
     }
 
     const renderPageNumbers = pageNumbers.map(number => {
@@ -139,7 +154,7 @@ function Pagination(props) {
             <SquarePagination
                 key={number}
                 id={number}
-                ref = {ref => itemsRef.push(ref)} 
+                ref = {ref => pagesRef.push(ref)} 
                 onClick={() => setCurrentPage(number)}
                 >
                 {number}
@@ -166,7 +181,7 @@ function Pagination(props) {
 
     return(
         <>
-        {renderFoods()}                
+        {renderFoodsPerPage()}                
         <FlexPagination>
             {renderPageNumbers}
             {renderButtons}

@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import FoodBoard from './FoodBoard'
 import ComponentList from './ComponentList'
 
-
 const BackgroundWhite = styled.div`
     background: white;
     margin: 10px;
@@ -34,10 +33,11 @@ const Hours = styled.div`
 const Rowsfoods = styled.div`
     margin-top: 15px;
 `
-function DisplayCOmponentList(props) {
+function DisplayComponentList(props) {
     return props.componentList.length ? props.componentList.map(({id, quantity, measure, name}) => 
         <ComponentList key={id} id={id} quantity={quantity} measure={measure} name={name} componentList={props.componentList} setComponentList={props.setComponentList}/>) : ""
 }
+
 function Container() {
     const [componentList, setComponentList] = useState([])
 
@@ -60,7 +60,7 @@ function Container() {
                     <Hours>7:00 AM</Hours>
                 </Header>
                 <Rowsfoods>
-                    <DisplayCOmponentList componentList={componentList} setComponentList={setComponentList}/>
+                    <DisplayComponentList componentList={componentList} setComponentList={setComponentList}/>
                     <FoodBoard setComponentList={setComponentList} componentList={componentList}/>
                 </Rowsfoods>
             </Card>

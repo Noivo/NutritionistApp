@@ -9,12 +9,17 @@ const FoodText = styled.div`
     color: #606060;
 `
 
+const PaddingTopTrash = styled.div`
+    padding-top: 2px;
+`
+
 const TrashIcon = styled.button` 
     background-color: white;
     height: 27px;
     border: 1px solid #dad8d8;
     border-radius: 50%;
     margin-top: 6px;
+    padding-top: 1px;
     display:none;
 
     &:focus{
@@ -48,7 +53,7 @@ function ComponentList(props) {
         try{
             const deleteComponent = await fetch(`/components/${props.id}.json`, {
                 method: 'DELETE',      
-             }).then(response => response.json()).catch(error => error)
+             })
     
              deleteComponent && props.setComponentList(props.componentList.filter(food => food.name !== props.name))
         } catch(error) {console.log(error)}
@@ -62,9 +67,9 @@ function ComponentList(props) {
                 <CenterIcon>
                     <TrashIcon onClick={deleteComponent}>
                         <IconContext.Provider value={{ color: "#696363"}}>
-                            <div>
+                            <PaddingTopTrash>
                                 <FaTrash/>
-                            </div>
+                            </PaddingTopTrash>
                         </IconContext.Provider>
                     </TrashIcon>  
                 </CenterIcon>

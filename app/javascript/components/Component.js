@@ -85,7 +85,7 @@ const options = MEASURES.map(value => <option value={value} key={value}>{value}<
 
 function Component(props) {
     const [amount, setAmount] = useState("100");
-    const [selectMeasure, setSelectMeasure] = useState("grams")
+    const [measureSelected, setMeasureSelected] = useState("grams")
 
     const updateComponentList = async () => {
         try{
@@ -96,7 +96,7 @@ function Component(props) {
     }
 
     const addComponent = async () => {
-        const data = {name:props.name, quantity:amount, measure: selectMeasure, food_id:props.id}
+        const data = {name:props.name, quantity:amount, measure: measureSelected, food_id:props.id}
         try{  
             const requestComponentAdd = await fetch(`/components`, {
                 method: 'POST',
@@ -116,7 +116,7 @@ function Component(props) {
                 <BackgroundFood>
                     <InputAmount value={amount} onChange={e => setAmount(e.target.value)}>
                     </InputAmount>
-                    <SelectMeasure value={selectMeasure} onChange={e => setSelectMeasure(e.target.value)}>
+                    <SelectMeasure value={measureSelected} onChange={e => setMeasureSelected(e.target.value)}>
                         {options}
                     </SelectMeasure>
 

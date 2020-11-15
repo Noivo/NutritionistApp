@@ -6,6 +6,5 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-foods = Food.create([{name:"Milk, whole, UHT"},{name:"Goat milk, whole, UHT",}, {name:"Milk, skimmed, UHT"}, {name:"Goat milk, half skimmed, UHT pasteurized"}, {name:"Milk, fat content unknown, UHT sterilized"}, {name:"Bread"}, {name:"Apple"}])
-components = Component.create([{name:"Milk, whole, UHT", quantity:"200", measure:"grams", food:foods.first}, {name:"Goat milk, whole, UHT", quantity:"200", measure:"grams", food:foods.second}])
+foods = Food.create([{name:"Milk, whole, UHT"},{name:"Goat milk, whole, UHT",}, {name:"Milk, skimmed, UHT"}, {name:"Goat milk, half skimmed, UHT pasteurized"}, {name:"Milk, fat content unknown, UHT sterilized"},{name:"Goat milk, fat content unknown, UHT pasteurized"}, {name:"Bread"}, {name:"Apple"}])
 

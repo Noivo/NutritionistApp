@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
-import Pagination from "./Pagination"
+import FoodAvailable from "./FoodAvailable"
 
 const Background = styled.div`
     background-color: #fafafb;
@@ -23,32 +23,57 @@ const Input = styled.input`
         outline: none;
     } 
 `
-function ShowPagination(props){
-    return props.foodSearch && <Pagination foodListUnique={props.foodListUnique} foodSearch={props.foodSearch} componentList={props.componentList} setComponentList={props.setComponentList}/>
+
+function ShowFoodAvailable(props){
+    return props.foodWords && <FoodAvailable foodListWithWords={props.foodListWithWords} foodWords={props.foodWords} componentList={props.componentList} 
+    setComponentList={props.setComponentList} foodListComplete={props.foodListComplete}/>
 }
 
 function FoodSearch(props) {
-    const [foodSearch, setFoodSearch] = useState("");
-    const [foodListUnique, setFoodListUnique] = useState([]);
+    const [foodWords, setFoodWords] = useState("");
+    const [foodSearchInput, setFoodSearchInput] = useState("");
+    const [foodListWithWords, setFoodListWithWords] = useState([]);
+    const [foodListComplete, setFoodListComplete] = useState([]);
 
     useEffect(() => {        
-        setFoodListUnique(removeDuplicateFood(props.foodList))
+        setFoodListWithWords(splitStringIntoWords(props.foodList))
     }, [props.componentList])
 
-    const removeDuplicateFood = foodList => {
-        const duplicatefoods =  verifyDuplicates(foodList, props.componentList)
-        return (foodList.filter(food => !(duplicatefoods.includes(food.name))))
+    const splitStringIntoWords = foodList => {        
+        const singleFoods = removeDuplicateFood(foodList)
+        saveSingleFoodList(singleFoods)
+        return singleFoods.map(({id,name}) => ({id: id, name: name.replace(",", "").split(" ").map(words => words.toLowerCase())}))
     }
 
-    const verifyDuplicates = (foodList, componentList) => {
-       return foodList.filter(element => componentList.some(food => element.name === food.name)).map(duplicate => duplicate.name)
+    const saveSingleFoodList = singleFoods => {
+        setFoodListComplete(singleFoods)
+    }
+
+    const removeDuplicateFood = foodList => {
+        const duplicateFoods =  findDuplicates(foodList, props.componentList)
+        return (foodList.filter(food => !(duplicateFoods.includes(food.name))))
+    }
+
+    const findDuplicates = (foodList, componentList) => {
+       return foodList.filter(food => componentList.some(component => food.name === component.name)).map(duplicate => duplicate.name)
     }
     
+    const splitInputStringIntoWords = newString => {
+        setFoodSearchInput(newString)
+        if (newString !== "") {
+            const stringIntoWordsArray = newString.trim().split(/\s+/)
+            setFoodWords(stringIntoWordsArray);
+        } else {
+            setFoodWords(newString)
+        }        
+    }
+
     return(
             <Background>
-              <Input type= 'text' value={foodSearch} onChange={e => setFoodSearch(e.target.value)} placeholder='Search for a food'>
+              <Input type= 'text' value={foodSearchInput} onChange={e => splitInputStringIntoWords(e.target.value) } placeholder='Search for a food'>
               </Input> 
-              <ShowPagination foodListUnique={foodListUnique} foodSearch={foodSearch} componentList={props.componentList} setComponentList={props.setComponentList} />                      
+              <ShowFoodAvailable foodListWithWords={foodListWithWords} foodWords={foodWords} componentList={props.componentList} 
+              setComponentList={props.setComponentList} foodListComplete={foodListComplete}/>                      
             </Background>
     )
 }
