@@ -67,23 +67,24 @@ const FOODPERPAGE = 5;
 
 function Pagination(props) {
     const [currentPage, setCurrentPage] = useState(1)
-    const [foodMatchList, setFoodMatchList] = useState([]);
     const [previousPagination, setPreviousPagination] = useState(0);
 
     const pageNumbers = []
     const pagesRef = []
 
     useEffect(() => {
-        const foodMatch = searchFoodMatch(props.foodListWithWords)
-        setFoodMatchList(foodMatch)
-        updatePaginationLastComponentAdded(foodMatch.length)
-    }, [props.foodListWithWords, props.foodWords])
+        updatePaginationLastComponentAdded(props.foodMatchList.length)
+    }, [props.foodMatchList])
 
     useEffect(() => {
         resetBackgroundOldPage();
         setBackgroundNewPage(); 
         setPreviousPagination(currentPage)
     },[pagesRef])
+
+    const updatePaginationLastComponentAdded = (foodListSize) => {
+        if(props.foodMatchList.length && Math.ceil(foodListSize / FOODPERPAGE) < currentPage) updateCurrentPage(Math.ceil(foodListSize / FOODPERPAGE))
+    }
 
     const resetBackgroundOldPage = () => {
         if(pagesRef.length && pagesRef[previousPagination-1])  pagesRef[previousPagination-1].style.backgroundColor= "#fff"
@@ -93,23 +94,6 @@ function Pagination(props) {
         if(pagesRef.length && pagesRef[currentPage-1])  pagesRef[currentPage-1].style.backgroundColor= "#f0f1f2";
     }
 
-    const updatePaginationLastComponentAdded = (foodListSize) => {
-        if(foodMatchList.length && Math.ceil(foodListSize / FOODPERPAGE) < currentPage) updateCurrentPage(Math.ceil(foodListSize / FOODPERPAGE))
-    }
-
-    const searchFoodMatch = foodList => {
-        return foodList.filter(food => compareSearchWithList(food)).map(foodMatch => props.foodListComplete.map(foodComplete => foodComplete.id === foodMatch.id && displayComponent(foodComplete)))
-    }
-    
-    const compareSearchWithList = food => {
-        const numberTrueForValidate = props.foodWords.length
-        return food.name.filter(name => (props.foodWords.filter(searchWord => name.includes(searchWord.toLowerCase()))).length).length >= numberTrueForValidate
-    }
-
-    const displayComponent = ({id, name}) => { 
-        return <Component key={id} id={id} name={name} componentList={props.componentList} setComponentList={props.setComponentList}/>
-    }
-
     const updateCurrentPage = newCurrentPage => {
         if(newCurrentPage !== 0) {
             setPreviousPagination(currentPage)
@@ -117,7 +101,7 @@ function Pagination(props) {
         }
     }
     
-    for (let i = 1; i <= Math.ceil(foodMatchList.length / FOODPERPAGE); i++) {
+    for (let i = 1; i <= Math.ceil(props.foodMatchList.length / FOODPERPAGE); i++) {
         pageNumbers.push(i)
     }
 
@@ -140,7 +124,7 @@ function Pagination(props) {
     const renderFoodsPerPage = () => {
         const indexOfLastFood = currentPage * FOODPERPAGE;
         const indexOfFirstFood = indexOfLastFood - FOODPERPAGE;        
-        const currentFood = foodMatchList.slice(indexOfFirstFood, indexOfLastFood);
+        const currentFood = props.foodMatchList.slice(indexOfFirstFood, indexOfLastFood);
 
         return currentFood.map((food, index) => {
            return  <div key={index}>{food}</div>

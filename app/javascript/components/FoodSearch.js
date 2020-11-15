@@ -42,7 +42,7 @@ function FoodSearch(props) {
     const splitStringIntoWords = foodList => {        
         const singleFoods = removeDuplicateFood(foodList)
         saveSingleFoodList(singleFoods)
-        return singleFoods.map(({id,name}) => ({id: id, name: name.replace(",", "").split(" ").map(words => words.toLowerCase())}))
+        return singleFoods.map(({id,name}) => ({id: id, name: name.replace(",", "").toLowerCase()}))
     }
 
     const saveSingleFoodList = singleFoods => {

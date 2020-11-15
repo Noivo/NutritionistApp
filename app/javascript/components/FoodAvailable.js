@@ -14,12 +14,19 @@ function FoodAvailable(props) {
 
 
     const searchFoodMatch = foodList => {
-        return foodList.filter(food => compareSearchWithList(food)).map(foodMatch => props.foodListComplete.map(foodComplete => foodComplete.id === foodMatch.id && displayComponent(foodComplete)))
+        return  foodList.map(food => compareSearchWithFood(food)).filter(array => checkAllMatchArray(array.name)).map(foodMatch => getCompleteFoods(props.foodListComplete, foodMatch))
     }
     
-    const compareSearchWithList = food => {
-        const numberTrueForValidate = props.foodWords.length
-        return food.name.filter(name => (props.foodWords.filter(searchWord => name.includes(searchWord.toLowerCase()))).length).length >= numberTrueForValidate
+    const compareSearchWithFood = food => {
+        return ({id:food.id, name: props.foodWords.map(searchWord => food.name.includes(searchWord.toLowerCase()))})
+    }
+
+    const checkAllMatchArray = matchArray => {
+        return matchArray.every(element => element)
+    }
+
+    const getCompleteFoods = (foodListComplete, foodMatch) => {
+        return foodListComplete.map(foodComplete => foodComplete.id === foodMatch.id && displayComponent(foodComplete))
     }
 
     const displayComponent = ({id, name}) => { 
@@ -28,8 +35,7 @@ function FoodAvailable(props) {
 
     return(
         <>
-            <Pagination foodMatchList={foodMatchList} foodListWithWords={foodListWithWords} foodWords={foodWords} componentList={props.componentList} 
-              setComponentList={props.setComponentList} foodListComplete={foodListComplete}/>
+            <Pagination foodMatchList={foodMatchList}/>
       </>
     )
 }
