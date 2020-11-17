@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
 
+import {IconContext}  from "react-icons"
+import { FaAngleDown, FaAngleUp } from "react-icons/fa"
+
 import FoodBoard from './FoodBoard'
 import ComponentList from './ComponentList'
 
@@ -10,10 +13,9 @@ const BackgroundWhite = styled.div`
     border-radius: 3px;
     overflow: hidden;
     box-shadow: 2px 2px #ccc;
-    padding-bottom: 15px;
 `
 const Card = styled.div`
-    margin: 20px 15px;
+    margin: 20px 15px 35px 15px;
 `
 
 const Header = styled.div`
@@ -32,7 +34,32 @@ const Hours = styled.div`
 
 const Rowsfoods = styled.div`
     margin-top: 15px;
+    
 `
+
+const InvisibleHeaderDisplay = styled.div`
+    flex-grow: 2;
+    text-align: center;
+`
+const InvisibleFooterDisplay = styled.div`
+    position: absolute;
+    width: 98%;
+    height: 35px;
+    margin-left: -15px;
+`
+
+const arrowDown = <IconContext.Provider value={{ color: "#3CB371"}}>
+<div>
+    <FaAngleDown/>
+</div>
+</IconContext.Provider> 
+
+const arrowUp = <IconContext.Provider value={{ color: "#3CB371"}}>
+<div>
+    <FaAngleUp/>
+</div>
+</IconContext.Provider> 
+
 function DisplayComponentList(props) {
     return props.componentList.length ? props.componentList.map(({id, quantity, measure, name}) => 
         <ComponentList key={id} id={id} quantity={quantity} measure={measure} name={name} componentList={props.componentList} setComponentList={props.setComponentList}/>) : ""
@@ -40,6 +67,7 @@ function DisplayComponentList(props) {
 
 function Container() {
     const [componentList, setComponentList] = useState([])
+    const [showMealTab, setShowMealTab] = useState(false)
 
     useEffect( () => {
         async function requestComponentList(){
@@ -52,17 +80,25 @@ function Container() {
         requestComponentList()
     }, [])
 
+    const showComponents = showMealTab && <Rowsfoods>
+        <DisplayComponentList componentList={componentList} setComponentList={setComponentList}/>
+        <FoodBoard setComponentList={setComponentList} componentList={componentList}/>
+    </Rowsfoods>
+
+    const changeShowMealTab = () => {setShowMealTab(!showMealTab)}
+
+    const displayArrow = showMealTab ? arrowUp : arrowDown
+
     return (
         <BackgroundWhite>
-            <Card>
+            <Card>            
                 <Header>
                     <Meal>Breakfast</Meal>
+                    <InvisibleHeaderDisplay onClick={changeShowMealTab}>{displayArrow}</InvisibleHeaderDisplay>
                     <Hours>7:00 AM</Hours>
                 </Header>
-                <Rowsfoods>
-                    <DisplayComponentList componentList={componentList} setComponentList={setComponentList}/>
-                    <FoodBoard setComponentList={setComponentList} componentList={componentList}/>
-                </Rowsfoods>
+                {showComponents}
+                <InvisibleFooterDisplay onClick={changeShowMealTab}></InvisibleFooterDisplay>
             </Card>
         </BackgroundWhite>
     )
