@@ -51,7 +51,7 @@ function ComponentList(props) {
 
     const deleteComponent = async() => {
         try{
-            const deleteComponent = await fetch(`/components/${props.id}.json`, {
+            const deleteComponent = await fetch(`/meals/${props.mealId}/components/${props.id}.json`, {
                 method: 'DELETE',      
              })
     

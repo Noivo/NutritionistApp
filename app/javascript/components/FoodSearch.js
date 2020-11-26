@@ -25,7 +25,7 @@ const Input = styled.input`
 `
 
 function ShowFoodAvailable(props){
-    return props.foodWords && <FoodAvailable foodListWithWords={props.foodListWithWords} foodWords={props.foodWords} componentList={props.componentList} 
+    return props.foodWords && <FoodAvailable foodListWithWords={props.foodListWithWords} mealId={props.mealId} foodWords={props.foodWords} componentList={props.componentList} 
     setComponentList={props.setComponentList} foodListComplete={props.foodListComplete}/>
 }
 
@@ -72,7 +72,7 @@ function FoodSearch(props) {
             <Background>
               <Input type= 'text' value={foodSearchInput} onChange={e => splitInputStringIntoWords(e.target.value) } placeholder='Search for a food'>
               </Input> 
-              <ShowFoodAvailable foodListWithWords={foodListWithWords} foodWords={foodWords} componentList={props.componentList} 
+              <ShowFoodAvailable foodListWithWords={foodListWithWords} mealId={props.mealId} foodWords={foodWords} componentList={props.componentList} 
               setComponentList={props.setComponentList} foodListComplete={foodListComplete}/>                      
             </Background>
     )

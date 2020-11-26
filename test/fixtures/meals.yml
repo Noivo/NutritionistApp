@@ -2,10 +2,12 @@
 
 one:
   name: MyString
-  quantity: MyString
-  measure: MyString
+  hours: 1
+  minutes: 1
+  midday: MyString
 
 two:
   name: MyString
-  quantity: MyString
-  measure: MyString
+  hours: 1
+  minutes: 1
+  midday: MyString

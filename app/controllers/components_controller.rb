@@ -1,10 +1,11 @@
 class ComponentsController < ApplicationController
+  before_action :get_meal
   before_action :set_component, only: [:show, :edit, :update, :destroy]
 
   # GET /components
   # GET /components.json
   def index
-    @components = Component.all
+    @components = @meal.components
   end
 
   # GET /components/1
@@ -14,7 +15,7 @@ class ComponentsController < ApplicationController
 
   # GET /components/new
   def new
-    @component = Component.new
+    @component = @meal.components.build
   end
 
   # GET /components/1/edit
@@ -24,12 +25,12 @@ class ComponentsController < ApplicationController
   # POST /components
   # POST /components.json
   def create
-    @component = Component.new(component_params)
+    @component = @meal.components.create(component_params)
 
     respond_to do |format|
       if @component.save
-        format.html { redirect_to @component, notice: 'Component was successfully created.' }
-        format.json { render :show, status: :created, location: @component }
+        format.html { redirect_to meal_components_path(@meal), notice: 'Component was successfully created.' }
+        format.json { render :show, status: :created, location: @meal }
       else
         format.html { render :new }
         format.json { render json: @component.errors, status: :unprocessable_entity }
@@ -42,8 +43,8 @@ class ComponentsController < ApplicationController
   def update
     respond_to do |format|
       if @component.update(component_params)
-        format.html { redirect_to @component, notice: 'Component was successfully updated.' }
-        format.json { render :show, status: :ok, location: @component }
+        format.html { redirect_to meal_component_path(@meal), notice: 'Component was successfully updated.' }
+        format.json { render :show, status: :ok, location: @meal }
       else
         format.html { render :edit }
         format.json { render json: @component.errors, status: :unprocessable_entity }
@@ -56,19 +57,25 @@ class ComponentsController < ApplicationController
   def destroy
     @component.destroy
     respond_to do |format|
-      format.html { redirect_to components_url, notice: 'Component was successfully destroyed.' }
+      format.html { redirect_to meal_components_path(@meal), notice: 'Component was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
+
+    def get_meal
+      @meal = Meal.find(params[:meal_id])
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_component
-      @component = Component.find(params[:id])
+      @component = @meal.components.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def component_params
-      params.require(:component).permit(:name, :quantity, :measure, :food_id)
+      params.require(:component).permit(:name, :quantity, :measure, :food_id, :meal_id)
     end
+    
 end

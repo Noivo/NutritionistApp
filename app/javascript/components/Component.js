@@ -81,7 +81,7 @@ const InputAmount = styled.input`
 `
 
 const MEASURES = ["grams", "kilos"]
-const options = MEASURES.map(value => <option value={value} key={value}>{value}</option>)
+const measureOptions = MEASURES.map(value => <option value={value} key={value}>{value}</option>)
 
 function Component(props) {
     const [amount, setAmount] = useState("100");
@@ -89,16 +89,16 @@ function Component(props) {
 
     const updateComponentList = async () => {
         try{
-            const requestComponentList = await fetch("/components.json")
+            const requestComponentList = await fetch(`/meals/${props.mealId}/components.json`)
             const parseJsonComponentList = await requestComponentList.json();
             props.setComponentList(parseJsonComponentList);
         } catch(error) {console.log(error)}
     }
 
     const addComponent = async () => {
-        const data = {name:props.name, quantity:amount, measure: measureSelected, food_id:props.id}
+        const data = {name:props.name, quantity:amount, measure: measureSelected, food_id:props.id, meal_id: props.mealId}
         try{  
-            const requestComponentAdd = await fetch(`/components`, {
+            const requestComponentAdd = await fetch(`/meals/${props.mealId}/components`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -107,26 +107,39 @@ function Component(props) {
                 body: JSON.stringify(data)
             })
             requestComponentAdd && updateComponentList()
-        } catch(error) {console.log(error)}        
-        
+        } catch(error) {console.log(error)}           
+    }
+
+    const createComponentsMeal = async () => {
+        try{  
+            const requestComponentAdd = await fetch(`/meals/${props.mealId}/components/new`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+        } catch(error) {console.log(error)}         
     }
     
-        return (   
-            <Row>
-                <BackgroundFood>
-                    <InputAmount value={amount} onChange={e => setAmount(e.target.value)}>
-                    </InputAmount>
-                    <SelectMeasure value={measureSelected} onChange={e => setMeasureSelected(e.target.value)}>
-                        {options}
-                    </SelectMeasure>
+    const newComponent = createComponentsMeal && addComponent
 
-                    <TextFood>
-                        {props.name}
-                    </TextFood>
-                </BackgroundFood>
-                < AddButton onClick={addComponent}>+</AddButton>  
-            </Row> 
-        )
+    return (   
+        <Row>
+            <BackgroundFood>
+                <InputAmount value={amount} onChange={e => setAmount(e.target.value)}>
+                </InputAmount>
+                <SelectMeasure value={measureSelected} onChange={e => setMeasureSelected(e.target.value)}>
+                    {measureOptions}
+                </SelectMeasure>
+
+                <TextFood>
+                    {props.name}
+                </TextFood>
+            </BackgroundFood>
+            < AddButton onClick={addComponent}>+</AddButton>  
+        </Row> 
+    )
     
 }
 

@@ -10,10 +10,6 @@ const Place_Button = styled.div`
     display:flex;
     margin-top: 10px;
 `
-const ArrowUpSearch = styled.div`
-    padding-top: 5px;
-    font-size: 17px;
-`
 
 const PlusButton = styled.button`
     color: #59b399;
@@ -44,7 +40,7 @@ const iconArrowUp = <IconContext.Provider value={{ color: "#3CB371"}}>
     </IconContext.Provider> 
 
 function DisplaySearchBar(props) {
-    return props.show && <FoodSearch foodList={props.foodList} componentList={props.componentList} setComponentList={props.setComponentList}/>
+    return props.show && <FoodSearch foodList={props.foodList} mealId={props.mealId} componentList={props.componentList} setComponentList={props.setComponentList}/>
 }
 
 function FoodBoard(props) {
@@ -75,7 +71,7 @@ function FoodBoard(props) {
                     {displayIconButton}
                 </PlusButton>
             </Place_Button>
-            <DisplaySearchBar show={show} foodList={foodList} componentList={props.componentList} setComponentList={props.setComponentList} />
+            <DisplaySearchBar show={show} foodList={foodList} mealId={props.mealId} componentList={props.componentList} setComponentList={props.setComponentList} />
         </>
     )
 }

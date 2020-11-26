@@ -1,10 +1,10 @@
 import React from 'react'
 
-import Container from './Container'
+import MealList from './MealList'
 
 function App() {
     return (
-            <Container/>
+            <MealList/>
     )
 }
 

@@ -5,6 +5,7 @@ class CreateComponents < ActiveRecord::Migration[6.0]
       t.string :quantity
       t.string :measure
       t.belongs_to :food
+      t.belongs_to :meal
 
 
       t.timestamps

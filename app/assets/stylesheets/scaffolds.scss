@@ -8,12 +8,36 @@ body,
 p,
 ol,
 ul,
-td,
-input,
-select {
+td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 15px;
   line-height: 18px;
+}
+
+select,
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+button,
+select {
+  cursor: pointer;
+}
+
+input,
+div,
+select {
+  font-size: 1em;
+}
+
+button,
+select,
+input {
+  &:focus {
+    outline: none;
+  }
 }
 
 pre {

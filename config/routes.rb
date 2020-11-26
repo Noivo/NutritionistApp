@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :components
+  resources :meals do
+    resources :components
+  end
   resources :foods
   root 'pages#index'
 

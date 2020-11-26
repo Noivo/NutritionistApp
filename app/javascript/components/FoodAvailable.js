@@ -30,7 +30,7 @@ function FoodAvailable(props) {
     }
 
     const displayComponent = ({id, name}) => { 
-        return <Component key={id} id={id} name={name} componentList={props.componentList} setComponentList={props.setComponentList}/>
+        return <Component key={id} id={id} name={name} mealId={props.mealId} componentList={props.componentList} setComponentList={props.setComponentList}/>
     }
 
     return(
