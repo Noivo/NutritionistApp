@@ -79,6 +79,13 @@ function MealCreator(props) {
     const [hours, setHours] = useState("")
     const [minutes, setMinutes] = useState("")
     const [midday, setMidday] = useState(middaylOptions[0])
+
+    const defaultState = () => {
+        setName("");
+        setHours("");
+        setMinutes("");
+        setMidday(middaylOptions[0])
+    }
    
     const createMeal = async () => {
         const data = {name:name, hours: Number(hours), minutes: Number(minutes), midday:midday}
@@ -91,7 +98,8 @@ function MealCreator(props) {
                 },
                 body: JSON.stringify(data)
             })
-            requestMealAdd && props.setAddMeal(!props.addMeal)            
+            requestMealAdd && defaultState()       
+            requestMealAdd && props.setAddMeal(!props.addMeal)
         } catch(error) {console.log(error)}    
     }
 
@@ -105,6 +113,7 @@ function MealCreator(props) {
             createMeal()
           }
     }
+
 
     return(
         <BackgroundWhite>

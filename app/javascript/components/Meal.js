@@ -227,6 +227,9 @@ function Meal({id, name, hours, minutes, midday, changeMeal, setChangeMeal}) {
 
     const showModal = modal && <Modal text={`Are you sure want delete ${mealName} meal?`} acceptText="Delete" cancelText="Cancel" acceptFunction={deleteMeal} setModal={setModal}/>
 
+    const showHours = mealHours < 10 ? `0${mealHours}` : mealHours
+
+    const showMinutes = mealMinutes < 10 ? `0${mealMinutes}` : mealMinutes
 
 
     return (
@@ -236,9 +239,9 @@ function Meal({id, name, hours, minutes, midday, changeMeal, setChangeMeal}) {
                     <NameMeal value={mealName} onChange={e => setMealName(e.target.value)} placeholder="New Meal"></NameMeal>
                     <InvisibleHeaderDisplay onClick={changeShowMealTab}>{displayArrow}</InvisibleHeaderDisplay>
                     <TimeContainerMeal>
-                        <HoursMeal value={mealHours} onChange={e => setMealHours(e.target.value)} maxLength="2" placeholder="00"></HoursMeal>
+                        <HoursMeal value={showHours} onChange={e => setMealHours(e.target.value)} maxLength="2" placeholder="00"></HoursMeal>
                         <ColonSeparateTime>:</ColonSeparateTime>
-                        <MinutesMeal value={mealMinutes} onChange={e => setMealMinutes(e.target.value)} maxLength="2" placeholder="00"></MinutesMeal>
+                        <MinutesMeal value={showMinutes} onChange={e => setMealMinutes(e.target.value)} maxLength="2" placeholder="00"></MinutesMeal>
                         <SelectMidday value={mealMidday} onChange={e => setMealMidday(e.target.value)}>{selectMiddaylOptions}</SelectMidday>
                     </TimeContainerMeal>
                 </Header>

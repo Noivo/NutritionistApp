@@ -7,6 +7,7 @@ function MealList() {
     const [mealList, setMealList] = useState([])
     const [addMeal, setAddMeal] = useState(false)
     const [changeMeal, setChangeMeal] = useState(false)
+    
     useEffect( () => {
         async function requestMealList(){
             try{
